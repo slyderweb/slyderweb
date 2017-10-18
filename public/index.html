@@ -1,0 +1,131 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>Belsebubs inferno</title>
+    <meta  charset="UTF-8">
+  </head>
+
+  <body>
+
+		<div class="wrapper">
+
+		  	<h1 class="red">Belsebubs inferno</h1>
+		  	<br>
+    		<input  id="inputName" value="HVA ER DITT NAVN" />
+			<button id="btn">Bank på døren</button>
+			<h3>Belsebub sier: </h3>
+			<h3 class="belsebub" id="greetingOut">*snøft*</h3>
+
+		</div>
+
+	<script>
+	
+		// init ------------------------
+		let inputName = document.getElementById("inputName");
+		let greetingOut =  document.getElementById("greetingOut");
+		let btn = document.getElementById("btn");
+			
+		btn.onclick = sendGreeting;	
+			
+		// sendGreeting ------------------------	
+		function sendGreeting() {
+	
+			if (inputName.value) {
+
+					if(inputName.value == 666){
+								greetingOut.innerHTML = "Middagsbuffeten finner du til venstre for det endeløse hullet...";	
+								console.log("666");
+					}		
+					
+				else {
+
+						fetch(`/hilsen?name=${inputName.value}`).then(res =>{
+							return res.json();
+						}).then(res => {
+							greetingOut.innerHTML = res;
+						});
+				}
+			} 
+			
+			else {
+				greetingOut.innerHTML = "Jeg må vite navnet ditt, hedning";
+			}
+			
+		}
+	
+			</script>
+
+</body>
+
+<style type="text/css">
+
+	.wrapper {
+		 display: flex;
+		 flex-wrap: wrap;
+		 width: 360px;
+		 margin: auto;
+	}
+
+  body {
+	position: relative;
+	top: 50px;
+    background-color: #000;
+    color: #fff;
+    max-width: 500px;
+    margin: auto;
+  }
+
+  h3 {
+    line-height: 1.4em;
+  }
+
+	p {
+    font-size: 0.8em;
+    line-height: 1.3em;
+  }
+
+	.red, .belsebub {
+		color:#f20;
+	}
+
+	.belsebub {
+		text-transform: uppercase;
+		font-style: courier new, monospace;		
+		text-indent: 2em;
+	}
+	
+	input {
+		width: 100%;
+		height: 1em;
+		}
+	
+		button {
+			width: 100%;
+			height: 1.6em;
+			background-color: #f20;
+			color: white;
+			text-shadow: 1px 1px 3px #000;
+			border: none;
+			box-shadow: 2px maroon;
+			border-radius: 6px;
+		}
+		
+		button:focus {
+			outline: none;
+		}
+		
+		button:hover {
+			color: black;
+			text-shadow: none;
+		}
+		
+		button:active {
+			height: 1.6em;
+			color: #f20;
+			border: none;
+			background-color: white;
+		}
+
+</style>
+
+</html>
