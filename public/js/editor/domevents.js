@@ -1,5 +1,6 @@
 // -- Element events
 let domEvent = {
+	// Updates the gradient labels in side bar
 	removeGradColors: function() {
 		let gradDomList = gradientListDiv.querySelectorAll('div[name="gradientColor"]');
 
@@ -8,6 +9,7 @@ let domEvent = {
 		});
 	},
 
+	//Sets background color to the editor
 	setBgColor: function() {
 		let gradDomList = gradientListDiv.querySelectorAll('div[name="gradientColor"]');
 		let colorsLength = presentation.bgColors.length - 1;
@@ -27,6 +29,7 @@ let domEvent = {
 		});
 	},
 
+	// Toggle the picker; say that three times very fast
 	toggleColorPicker: function(e) {
 		if (colorPicker.style.display == "none") {
 			shadowPicker.style.display = "none";
@@ -67,6 +70,7 @@ let domEvent = {
 		}
 	},
 
+	//Sets the toolbar position over selected element
 	setToolbarPos: function(element) {
 		let top = element.offsetTop;
 		let left = element.offsetLeft;
@@ -80,6 +84,7 @@ let domEvent = {
 		}
 	},
 
+	// Checks if the mouse was hovering the toolbar when clicked
 	checkClickedToolbar: function() {
 		let clicked = false;
 		let mTarget = document.querySelectorAll(":hover");
@@ -93,6 +98,8 @@ let domEvent = {
 		return clicked;
 	},
 
+	// Iterate backwards recursively(?) to see if the parent matches the element
+	// This is mostly used to select items correctly
 	getParent: function(parent, element) {
 		if (parent != undefined && element != undefined) {
 			while (element.parentElement != parent) {
@@ -102,6 +109,7 @@ let domEvent = {
 		}
 	},
 
+	// Save the page to the presentation object, and cache it
 	savePage: function() {
 		let presObject = presentation.body["page_" + currentPage];
 		presObject.content = editGrid.innerHTML;
@@ -109,6 +117,7 @@ let domEvent = {
 		localStorage.setItem('presentation', JSON.stringify(presentation));
 	},
 
+	// Adds a new image to the editor
 	newImage: function(src) {
 		let img = document.createElement('img');
 
@@ -120,10 +129,15 @@ let domEvent = {
 		img.style.height = "auto";
 		img.style.zIndex = "3";
 		img.draggable = false;
+		//Firefox is hipster
+		img.ondragstart = e => {
+			return false;
+		}
 
 		return img;
 	},
 
+	// Adds a new iframe element to the editor
 	newIframe: function(src) {
 		let container = document.createElement('div');
 		let iframe = document.createElement('iframe');
@@ -142,10 +156,11 @@ let domEvent = {
 		return container;
 	},
 
+	// Loads either image or presentation flatfiles
 	loadFile: function(files) {
 		for (let obj of files) {
-			if (parseInt(obj.size) > 10485760) {
-				alert('Files over 10mb is not allowed');
+			if (parseInt(obj.size) > 26214400) {
+				alert('That file is be too big!');
 			} else {
 				if (obj.type.includes('image')) {
 					let reader = new FileReader();
@@ -168,7 +183,6 @@ let domEvent = {
 						let decoded = window.atob(base64);
 						presentation = JSON.parse(atob(decoded));
 						currentPage = 1;
-						init.updateBgSidebar();
 						init.loadContent();
 					});
 				} else {
@@ -178,6 +192,7 @@ let domEvent = {
 		}
 	},
 
+	// Sets an element to editable or uneditabuleble
 	setEditMode: function(element, editable) {
 		if(!presmode && !editing) {
 			element.setAttribute("contenteditable", editable);
@@ -191,6 +206,7 @@ let domEvent = {
 		}
 	},
 
+	// Removes edit mode
 	removeEditMode: function(element) {
 		if(!presmode && editing) {
 			element.contentEditable = false;
@@ -204,6 +220,7 @@ let domEvent = {
 		}
 	},
 
+	// Sets the passed element as the selected element
 	setSelected: function(element) {
 		if(!presmode) {
 			if (selected != undefined) {
@@ -215,6 +232,7 @@ let domEvent = {
 		}
 	},
 
+	//Removes the selected item and declare the variable undefined
 	removeSelected: function() {
 		if(!presmode) {
 			if (selected != undefined) {
@@ -229,6 +247,7 @@ let domEvent = {
 		}
 	},
 
+	// Updates an element to the mouse cursor
 	dragElement: function(e, element) {
 		if(!presmode && element != undefined) {
 			document.onmouseup = this.closeDragElement;
@@ -245,6 +264,7 @@ let domEvent = {
 	    }
 	},
 
+	// Close dragging on mouse up
 	closeDragElement: function(e) {
 		if(!presmode) {
 			document.onmouseup = null;
