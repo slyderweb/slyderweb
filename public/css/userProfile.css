@@ -46,16 +46,16 @@ nav {
 
 #profile-controls {
     position: absolute;
-	z-index: 2000;
-	width: 150px;
-	height: 100vh;
-	overflow-y: auto;
-	background-color: olive;
-	font-family: Courier;
-	font-size: 12px;
+  z-index: 2000;
+  width: 150px;
+  height: 100vh;
+  overflow-y: auto;
+  background-color: olive;
+  font-family: Courier;
+  font-size: 12px;
     text-align: center;
     cursor: default;
-	box-shadow: 1px 0px 5px #999;
+  box-shadow: 1px 0px 5px #999;
     overflow: -moz-scrollbars-none;
 }
 
